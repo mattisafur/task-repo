@@ -32,9 +32,8 @@ pipeline {
         stage('Fetch branch name') {
             steps { 
                 script {
-                    def branchName = sh(script: 'git branch --contains $(git rev-list --parents -n 1 HEAD | awk "{print \$2}") | head -n 1', returnStdout: true).split('\n')[0]
-                    echo("start${branchName}end")
-                    env.ISSUE_KEY = branchName
+                    env.ISSUE_KEY = sh(script: 'git branch --contains $(git rev-list --parents -n 1 HEAD | awk "{print \$2}") | head -n 1', returnStdout: true).split('\n')[0]
+                    echo("start${env.ISSUE_KEY}end")
                 }
             }
         }
