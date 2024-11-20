@@ -18,6 +18,7 @@ pipeline {
             steps {
                 script {
                     env.JIRA_KEY = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
+                    echo "JIRA_KEY: ${JIRA_KEY}"
                 }
             }
         }
