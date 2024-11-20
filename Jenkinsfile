@@ -28,15 +28,19 @@ pipeline {
             }
         }
         stage('Fetch branch name') {
-            script {
-                def branchName = sh(script: 'git branch --contains $(git rev-list --parents -n 1 HEAD | awk "{print \$2}")', ).split('\n')[0]
-                echo("start${branchName}end")
-                env.ISSUE_KEY = branchName
+            steps { 
+                script {
+                    def branchName = sh(script: 'git branch --contains $(git rev-list --parents -n 1 HEAD | awk "{print \$2}")', ).split('\n')[0]
+                    echo("start${branchName}end")
+                    env.ISSUE_KEY = branchName
+                }
             }
         }
         stage('Set issue to done') {
-            script {
-                jiraTransitionIssue(issueKey: env.ISSUE_KEY, transitionId: env.JIRA_TRANSITION_ID)
+            steps {
+                script {
+                    jiraTransitionIssue(issueKey: env.ISSUE_KEY, transitionId: env.JIRA_TRANSITION_ID)
+                }
             }
         }
     }
