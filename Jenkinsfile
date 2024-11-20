@@ -18,7 +18,10 @@ pipeline {
             steps {
                 script {
                     // Check if the current commit is a merge commit
-                    def isMergeCommit = sh(script: 'git log -1 --pretty=%P', returnStdout: true).trim()
+                    def parentHashes = sh(script: 'git log -1 --pretty=%P', returnStdout: true).trim()
+
+                    // Split the parent hashes string into a list and count the number of parents
+                    def parents = parentHashes.split()
                     
                     // If it's a merge commit, there will be two parents, so the output will have two commit hashes
                     if (isMergeCommit.split().size() == 2) {
