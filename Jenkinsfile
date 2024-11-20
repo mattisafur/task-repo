@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // check if last commit is a merge, terminate pipeline if not
-                    def hashes = sh(script: "git rev-list --parents -n 1 HEAD", returnStdout: true).trim().split(' ').trim()
+                    def hashes = sh(script: "git rev-list --parents -n 1 HEAD", returnStdout: true).trim().split(' ')
 
                     echo("start${hashes}end")
 
