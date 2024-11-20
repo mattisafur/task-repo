@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     // check if last commit is a merge, terminate pipeline if not
-                    def hashes = sh(script: "git rev-list --parents -n 1 HEAD", returnStdout: true).trim().split(' ')
+                    def hashes = sh(script: "git rev-list --parents -n 1 HEAD", returnStdout: true).trim().split(' ').trim()
 
                     echo("start${hashes}end")
 
@@ -32,7 +32,8 @@ pipeline {
         stage('Fetch branch name') {
             steps { 
                 script {
-                    env.ISSUE_KEY = sh(script: 'git branch --contains $(git rev-list --parents -n 1 HEAD | awk "{print \$2}") | head -n 1', returnStdout: true)
+                    echo("${sh('git log', returnStdOut: true)}")
+                    env.ISSUE_KEY = sh(script: 'git branch --contains $(git rev-list --parents -n 1 HEAD | awk "{print \$2}") | head -n 1', returnStdout: true).trim()
                     echo("start${env.ISSUE_KEY}end")
                 }
             }
