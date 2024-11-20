@@ -25,8 +25,8 @@ pipeline {
                         echo "This is a merge commit. Proceeding with further steps."
                     } else {
                         echo "This is not a merge commit. Skipping the job."
-                        currentBuild.result = 'SUCCESS'
-                        return // Exit the pipeline as this is not a merge commit
+                        currentBuild.result = 'ABORTED'  // Mark the build as aborted
+                        error("Not a merge commit, aborting the pipeline")  // Abort the pipeline
                     }
                 }
             }
